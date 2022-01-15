@@ -1,6 +1,8 @@
 import React from "react";
 import { Redirect, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
+import bubble from './images/bubble.svg';
+
 import {
   Grid,
   Box,
@@ -29,39 +31,61 @@ const Login = (props) => {
 
   return (
     <Grid container justify="center">
-      <Box>
-        <Grid container item>
-          <Typography>Need to register?</Typography>
-          <Button onClick={() => history.push("/register")}>Register</Button>
+        <Grid item xs={5} className={'sideBar'}>
+          <Box component="div" className={'background'}>
+            <Box component="div" className={'middleText'}>
+              <Box component="img" src={bubble}/>
+              <Box component="label">Converse with anyone with any language</Box>
+            </Box>
+          </Box>
         </Grid>
-        <form onSubmit={handleLogin}>
-          <Grid>
-            <Grid>
-              <FormControl margin="normal" required>
-                <TextField
-                  aria-label="username"
-                  label="Username"
-                  name="username"
-                  type="text"
-                />
-              </FormControl>
-            </Grid>
-            <FormControl margin="normal" required>
-              <TextField
-                label="password"
-                aria-label="password"
-                type="password"
-                name="password"
-              />
-            </FormControl>
-            <Grid>
-              <Button type="submit" variant="contained" size="large">
-                Login
-              </Button>
-            </Grid>
-          </Grid>
-        </form>
-      </Box>
+        <Grid item xs={7}>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: { xs: 'center', md: 'flex-start' },
+              m: 3,
+              minWidth: { md: 350 },
+              width: '100%',
+            }}
+          >
+              <Grid container justify="center" item className={'topRightPanel'}>
+                <Typography>Don't have an account?</Typography>
+                <Button onClick={() => history.push("/register")}>Create account</Button>
+              </Grid>
+              <Grid justify="left" item className={'rightPanel'}>
+                <form onSubmit={handleLogin}>
+                  <h1>Welcome Back!</h1>
+                  <Grid item>
+                    <FormControl margin="normal" required>
+                      <TextField
+                        aria-label="username"
+                        label="Username"
+                        name="username"
+                        type="text"
+                      />
+                    </FormControl>
+                  </Grid>
+                  <FormControl margin="normal" required>
+                    <TextField
+                      label="Password"
+                      aria-label="password"
+                      type="password"
+                      name="password"
+                    />
+                  </FormControl>
+                  <Grid item >
+                    <Box display="flex" justifyContent="center">
+                      <Button type="submit" variant="contained" size="large">
+                        Login
+                      </Button>
+                    </Box>
+                  </Grid>
+                </form>
+              </Grid>
+          </Box>
+        </Grid>
     </Grid>
   );
 };
