@@ -39,8 +39,8 @@ const Login = (props) => {
   }
 
   return (
-    <Grid container justify="center">
-      <Grid item xs={5} className={'sideBar'}>
+    <Grid container className={'row'}>
+      <Grid item className={'sideBar'}>
         <Box component="div" className={'background'}>
           <Box component="div" className={'middleText'}>
             <Box component="img" src={bubble}/>
@@ -48,18 +48,9 @@ const Login = (props) => {
           </Box>
         </Box>
       </Grid>
-      <Grid item xs={7}>
-        <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: { xs: 'center', md: 'flex-start' },
-          m: 3,
-          minWidth: { md: 350 },
-          width: '100%',
-        }}
-        >
-          <Grid container justify="center" item className={'topRightPanel'}>
+      <Grid item className={'column'}>
+        <Box>
+          <Grid container justify="right" item className={'topRightPanel'}>
             <Typography>Already have an account?</Typography>
             <Button onClick={() => history.push("/login")}>Login</Button>
           </Grid>
@@ -67,8 +58,8 @@ const Login = (props) => {
             <form onSubmit={handleRegister}>
               <Grid>
                 <h1>Create an account.</h1>
-                <Grid>
-                  <FormControl>
+                <Grid item xs={8}>
+                  <FormControl style={{width: '100%'}}>
                     <TextField
                       aria-label="username"
                       label="Username"
@@ -78,8 +69,8 @@ const Login = (props) => {
                     />
                   </FormControl>
                 </Grid>
-                <Grid>
-                  <FormControl>
+                <Grid item xs={8}>
+                  <FormControl style={{width: '100%'}}>
                     <TextField
                       label="E-mail address"
                       aria-label="e-mail address"
@@ -89,8 +80,8 @@ const Login = (props) => {
                     />
                   </FormControl>
                 </Grid>
-                <Grid>
-                  <FormControl error={!!formErrorMessage.confirmPassword}>
+                <Grid item xs={8}>
+                  <FormControl style={{width: '100%'}} error={!!formErrorMessage.confirmPassword}>
                     <TextField
                       aria-label="password"
                       label="Password"
@@ -104,8 +95,8 @@ const Login = (props) => {
                     </FormHelperText>
                   </FormControl>
                 </Grid>
-                <Grid>
-                  <FormControl error={!!formErrorMessage.confirmPassword}>
+                <Grid item xs={8}>
+                  <FormControl  style={{width: '100%'}} error={!!formErrorMessage.confirmPassword}>
                     <TextField
                       label="Confirm Password"
                       aria-label="confirm password"
@@ -119,7 +110,7 @@ const Login = (props) => {
                     </FormHelperText>
                   </FormControl>
                 </Grid>
-                <Grid item >
+                <Grid item xs={8}>
                   <Box display="flex" justifyContent="center">
                     <Button type="submit" variant="contained" size="large">
                       Create
