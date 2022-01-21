@@ -67,6 +67,18 @@ export const addSearchedUsersToStore = (state, users) => {
   return newState;
 };
 
+export const getSortedMessages = (conversations) => {
+  return conversations.map((convo) => {
+    const convoCopy = {...convo};
+    convoCopy.messages.sort((a, b) => {
+      if (a.createdAt < b.createdAt) return -1;
+      if (a.createdAt > b.createdAt) return 1;
+      return 0;
+    });
+    return convoCopy;
+  });
+};
+
 export const addNewConvoToStore = (state, recipientId, message) => {
   return state.map((convo) => {
     if (convo.otherUser.id === recipientId) {
