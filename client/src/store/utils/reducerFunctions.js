@@ -70,11 +70,7 @@ export const addSearchedUsersToStore = (state, users) => {
 export const getSortedMessages = (conversations) => {
   return conversations.map((convo) => {
     const convoCopy = {...convo};
-    convoCopy.messages.sort((a, b) => {
-      if (a.createdAt < b.createdAt) return -1;
-      if (a.createdAt > b.createdAt) return 1;
-      return 0;
-    });
+    convoCopy.messages.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     return convoCopy;
   });
 };
