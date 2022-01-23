@@ -15,9 +15,6 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import AddPhotoAlternateOutlinedIcon from '@material-ui/icons/AddPhotoAlternateOutlined';
 
-
-
-
 const useStyles = makeStyles(() => ({
   root: {
     justifySelf: "flex-end",
@@ -35,9 +32,11 @@ const Input = (props) => {
   const classes = useStyles();
   const [text, setText] = useState("");
   const [images, setImage] = useState([]);
+  const [imagesFiles, setImageFiles] = useState([]);
   const [loading, setLoading] = useState(false);
   const { postMessage, otherUser, conversationId, user } = props;
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  let imagesURL: string[] = [];
 
   //Dialog functionalities
   const handleClickOpen = () => {
@@ -47,29 +46,48 @@ const Input = (props) => {
   const handleClose = () => {
     setOpen(false);
     setImage([]);
+    setImageFiles([]);
+    imagesURL = [];
   };
 
-  const handleUpload = (event) => {
+  const handleUpload = async(event) => {
     // submit message and image from dialog
-    submitForm(text);
+    setLoading(true);
+    Promise.all(
+        imagesFiles.map(async image =>{
+          const formData = new FormData();
+          formData.append('file', image);
+          formData.append('upload_preset', process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
+          let res = await fetch(
+            "https://api.cloudinary.com/v1_1/"+process.env.REACT_APP_CLOUDINARY_NAME+"/auto/upload",
+            {
+              method: "post",
+              body: formData
+            }
+          );
+
+          let json = await res.json();
+          imagesURL.push(json.secure_url);
+          return true;
+        })
+    ).then(response=>{
+      setLoading(false);
+      submitForm(text);
+    }).catch(error=>{
+        console.log(error);
+        setLoading(false);
+    })
+
   };
 
-  const selectFile = async (event) => {
-    setLoading(true);
-    const formData = new FormData();
-    formData.append('file', event.target.files[0]);
-    formData.append('upload_preset', 'ml_default');
-    let res = await fetch(
-      "https://api.cloudinary.com/v1_1/dfsrc1vho/auto/upload",
-      {
-        method: "post",
-        body: formData
-      }
-    );
+  const selectFile = (event) => {
+    var reader = new FileReader();
+    setImageFiles([...imagesFiles, event.target.files[0]])
+    reader.readAsDataURL(event.target.files[0]);
 
-    let json = await res.json();
-    setImage([...images, json.secure_url ]);
-    setLoading(false);
+   reader.onloadend = function (e) {
+      setImage([...images, reader.result ]);
+    }
   }
 
   const handleChange = (event) => {
@@ -89,7 +107,7 @@ const Input = (props) => {
       recipientId: otherUser.id,
       conversationId,
       sender: conversationId ? null : user,
-      attachments: images,
+      attachments: imagesURL,
     };
     await postMessage(reqBody);
     setText("");
@@ -121,8 +139,8 @@ const Input = (props) => {
           }
         />
       </FormControl>
-      <div>
-        <Dialog maxWidth='sm' fullWidth="true" open={open} onClose={handleClose}>
+      <Box>
+        <Dialog maxWidth='sm' fullWidth={true} open={open} onClose={handleClose}>
           <DialogTitle>Send Image</DialogTitle>
           <DialogContent>
             <TextField
@@ -174,6 +192,7 @@ const Input = (props) => {
                 >
                   {images.map((image, index) => (
                     <Box
+                      key={index}
                       component="img"
                       sx={{
                         height: 80,
@@ -191,10 +210,10 @@ const Input = (props) => {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
-            <Button disabled={!images || images.length < 1} onClick={handleUpload}>Send</Button>
+            <Button disabled={!images || images.length < 1 || loading} onClick={handleUpload}>Send</Button>
           </DialogActions>
         </Dialog>
-      </div>
+      </Box>
     </form>
   );
 };
