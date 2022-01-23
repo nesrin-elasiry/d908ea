@@ -46,7 +46,7 @@ const OtherUserBubble = (props) => {
       <Box>
       {attachments.length > 1 &&
         <>
-        {text != '' &&
+        {text !== '' &&
           <Box className={classes.bubble}>
             <Typography className={classes.text}>{text}</Typography>
           </Box>
@@ -58,7 +58,7 @@ const OtherUserBubble = (props) => {
         </>
       }
 
-      {text != '' && attachments.length == 0 &&
+      {text !== '' && attachments.length === 0 &&
         <>
         <Typography className={classes.usernameDate}>
           {otherUser.username} {time}
@@ -70,13 +70,13 @@ const OtherUserBubble = (props) => {
       }
 
 
-      {attachments.length == 1 &&
+      {attachments.length === 1 &&
         <>
         <Typography className={classes.usernameDate}>
           {otherUser.username} {time}
         </Typography>
         <Attachments attachments={attachments}/>
-        {text != '' &&
+        {text !== '' &&
           <Box className={classes.bubble}>
             <Typography className={classes.text}>{text}</Typography>
           </Box>
