@@ -16,6 +16,7 @@ const Attachments = (props) => {
         >
         {attachments.map((image, index) => (
             <Box
+              key={index}
               component="img"
               sx={{
                 height: 80,
