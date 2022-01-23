@@ -39,7 +39,7 @@ const SenderBubble = (props) => {
     <Box className={classes.root}>
       {attachments.length > 1 &&
         <>
-        {text != '' &&
+        {text !== '' &&
           <Box className={classes.bubble}>
             <Typography className={classes.text}>{text}</Typography>
           </Box>
@@ -49,7 +49,7 @@ const SenderBubble = (props) => {
         </>
       }
 
-      {text != '' && attachments.length == 0 &&
+      {text !== '' && attachments.length === 0 &&
         <>
         <Typography className={classes.date}>{time}</Typography>
         <Box className={classes.bubble}>
@@ -59,11 +59,11 @@ const SenderBubble = (props) => {
       }
 
 
-      {attachments.length == 1 &&
+      {attachments.length === 1 &&
         <>
         <Typography className={classes.date}>{time}</Typography>
         <Attachments attachments={attachments}/>
-        {text != '' &&
+        {text !== '' &&
           <Box className={classes.bubble}>
             <Typography className={classes.text}>{text}</Typography>
           </Box>
