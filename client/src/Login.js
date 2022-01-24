@@ -29,11 +29,14 @@ const useStyles = makeStyles(() => ({
     padding: '10px 40px',
     width: '60%',
     display: 'block',
-    '@media screen and (max-width: 481px)' : {
+    '@media screen and (max-width: 530px)' : {
       display: 'inlineBlock',
       float: 'left',
       width: '100%',
-    }
+    },
+    '@media screen and (min-width: 531px) and (max-width: 770px)' : {
+      padding: '0px 20px',
+    },
   },
   topRightPanel: {
     marginTop: '10px',
@@ -54,7 +57,13 @@ const useStyles = makeStyles(() => ({
       color: '#3A8DFF',
       width: '170px',
       height: '54px',
-    }
+      '@media screen and (min-width: 531px) and (max-width: 770px)' : {
+        width: '128px',
+      },
+    },
+    '@media screen and (min-width: 531px) and (max-width: 770px)' : {
+      justifyContent: 'center',
+    },
   },
   rightPanel: {
     paddingTop: '150px',
@@ -79,7 +88,6 @@ const useStyles = makeStyles(() => ({
       }
     },
     '& input': {
-      boxShadow: '0 0 0 30px white inset',
       '&:-webkitAutofill': {
           '&:hover, &:focus, &:active': {
             boxShadow: '0 0 0 30px white inset',
@@ -92,9 +100,16 @@ const useStyles = makeStyles(() => ({
         fontSize: 'inherit',
       }
     },
-    '@media screen and (max-width: 481px)' : {
+    '@media screen and (max-width: 530px)' : {
       padding: '50px 0px',
-    }
+    },
+    '@media screen and (min-width: 531px) and (max-width: 770px)' : {
+      paddingLeft: '25px'
+    },
+  },
+  formControl: {
+    width: '100%',
+    marginBottom: '20px',
   }
 }));
 
@@ -129,17 +144,17 @@ const Login = (props) => {
                 <form onSubmit={handleLogin}>
                   <Typography component="h1">Welcome back!</Typography>
                   <Grid item xs={9}>
-                    <FormControl margin="normal" style={{width: '100%', marginBottom: '30px'}} required>
-                      <TextField
-                        aria-label="username"
-                        label="Username"
-                        name="username"
-                        type="text"
-                      />
-                    </FormControl>
+                  <FormControl margin="normal" required className={classes.formControl}>
+                    <TextField
+                      aria-label="username"
+                      label="Username"
+                      name="username"
+                      type="text"
+                    />
+                  </FormControl>
                   </Grid>
                   <Grid item xs={9}>
-                    <FormControl margin="normal" style={{width: '100%'}} required>
+                    <FormControl margin="normal" required className={classes.formControl}>
                       <TextField
                         label="Password"
                         aria-label="password"
