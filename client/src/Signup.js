@@ -33,7 +33,10 @@ const useStyles = makeStyles(() => ({
       display: 'inlineBlock',
       float: 'left',
       width: '100%',
-    }
+    },
+    '@media screen and (min-width: 531px) and (max-width: 770px)' : {
+      padding: '0px 20px',
+    },
   },
   topRightPanel: {
     marginTop: '10px',
@@ -54,7 +57,13 @@ const useStyles = makeStyles(() => ({
       color: '#3A8DFF',
       width: '140px',
       height: '54px',
-    }
+      '@media screen and (min-width: 531px) and (max-width: 770px)' : {
+        width: '128px',
+      },
+    },
+    '@media screen and (min-width: 531px) and (max-width: 770px)' : {
+      justifyContent: 'center',
+    },
   },
   rightPanel: {
     paddingTop: '150px',
@@ -94,7 +103,14 @@ const useStyles = makeStyles(() => ({
     },
     '@media screen and (max-width: 481px)' : {
       padding: '50px 0px',
-    }
+    },
+    '@media screen and (min-width: 531px) and (max-width: 770px)' : {
+      paddingLeft: '25px'
+    },
+  },
+  formControl: {
+    width: '100%',
+    marginBottom: '20px',
   }
 }));
 
@@ -137,7 +153,7 @@ const Login = (props) => {
                   <Typography component="h1">Create an account.</Typography>
                   <Grid>
                     <Grid item xs={9}>
-                      <FormControl style={{width: '100%', marginBottom: '30px'}}>
+                      <FormControl className={classes.formControl}>
                         <TextField
                           aria-label="username"
                           label="Username"
@@ -148,7 +164,7 @@ const Login = (props) => {
                       </FormControl>
                     </Grid>
                     <Grid item xs={9}>
-                      <FormControl style={{width: '100%', marginBottom: '30px'}}>
+                      <FormControl className={classes.formControl}>
                         <TextField
                           label="E-mail address"
                           aria-label="e-mail address"
@@ -159,7 +175,7 @@ const Login = (props) => {
                       </FormControl>
                     </Grid>
                     <Grid item xs={9}>
-                      <FormControl style={{width: '100%', marginBottom: '30px'}} error={!!formErrorMessage.confirmPassword}>
+                      <FormControl className={classes.formControl} error={!!formErrorMessage.confirmPassword}>
                         <TextField
                           aria-label="password"
                           label="Password"
@@ -174,7 +190,7 @@ const Login = (props) => {
                       </FormControl>
                     </Grid>
                     <Grid item xs={9}>
-                      <FormControl style={{width: '100%'}} error={!!formErrorMessage.confirmPassword}>
+                      <FormControl className={classes.formControl} error={!!formErrorMessage.confirmPassword}>
                         <TextField
                           label="Confirm Password"
                           aria-label="confirm password"
