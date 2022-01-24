@@ -21,7 +21,7 @@ const useStyles = makeStyles(() => ({
     backgroundImage: 'url('+background+')',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
-    '@media screen and (max-width: 481px)' : {
+    '@media screen and (max-width: 530px)' : {
       width: '100%',
       height: '40%',
     }
@@ -54,10 +54,18 @@ const useStyles = makeStyles(() => ({
       color: '#FFFFFF',
       fontFamily: 'Open Sans',
       lineHeight: '40px',
-      '@media screen and (max-width: 481px)' : {
+      '@media screen and (max-width: 530px)' : {
         fontSize: '20px',
-      }
-    }
+      },
+      '@media screen and (min-width: 531px) and (max-width: 770px)' : {
+        fontSize: '22px',
+        lineHeight: '30px',
+      },
+    },
+    '@media screen and (min-width: 531px) and (max-width: 770px)' : {
+      left: '20px',
+      right: '20px',
+    },
   },
 }));
 
