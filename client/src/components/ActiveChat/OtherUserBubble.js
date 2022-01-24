@@ -1,10 +1,12 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Box, Typography, Avatar } from "@material-ui/core";
+import { Attachments } from "./index";
 
 const useStyles = makeStyles(() => ({
   root: {
-    display: "flex"
+    display: "flex",
+    marginBottom: '10px',
   },
   avatar: {
     height: 30,
@@ -20,7 +22,8 @@ const useStyles = makeStyles(() => ({
   },
   bubble: {
     backgroundImage: "linear-gradient(225deg, #6CC1FF 0%, #3A8DFF 100%)",
-    borderRadius: "0 10px 10px 10px"
+    borderRadius: "0 10px 10px 10px",
+    marginBottom: '10px',
   },
   text: {
     fontSize: 14,
@@ -34,17 +37,54 @@ const useStyles = makeStyles(() => ({
 const OtherUserBubble = (props) => {
   const classes = useStyles();
   const { text, time, otherUser } = props;
+  const  attachments  = props.attachments || [];
+
   return (
     <Box className={classes.root}>
+
       <Avatar alt={otherUser.username} src={otherUser.photoUrl} className={classes.avatar}></Avatar>
       <Box>
+      {attachments.length > 1 &&
+        <>
+        {text !== '' &&
+          <Box className={classes.bubble}>
+            <Typography className={classes.text}>{text}</Typography>
+          </Box>
+        }
+        <Attachments attachments={attachments}/>
+        <Typography className={classes.usernameDate}>
+          {otherUser.username} {time}
+        </Typography>
+        </>
+      }
+
+      {text !== '' && attachments.length === 0 &&
+        <>
         <Typography className={classes.usernameDate}>
           {otherUser.username} {time}
         </Typography>
         <Box className={classes.bubble}>
           <Typography className={classes.text}>{text}</Typography>
         </Box>
+        </>
+      }
+
+
+      {attachments.length === 1 &&
+        <>
+        <Typography className={classes.usernameDate}>
+          {otherUser.username} {time}
+        </Typography>
+        <Attachments attachments={attachments}/>
+        {text !== '' &&
+          <Box className={classes.bubble}>
+            <Typography className={classes.text}>{text}</Typography>
+          </Box>
+        }
+        </>
+      }
       </Box>
+
     </Box>
   );
 };
