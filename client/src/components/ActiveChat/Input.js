@@ -3,6 +3,7 @@ import { FormControl, FilledInput } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 import { postMessage } from "../../store/utils/thunkCreators";
+import axios from "axios";
 
 import LinearProgress from '@material-ui/core/LinearProgress';
 import TextField from '@material-ui/core/TextField';
@@ -50,34 +51,30 @@ const Input = (props) => {
     imagesURL = [];
   };
 
+  const instance = axios.create();
   const handleUpload = async(event) => {
     // submit message and image from dialog
     setLoading(true);
-    Promise.all(
+    try{
+      await Promise.all(
         imagesFiles.map(async image =>{
           const formData = new FormData();
           formData.append('file', image);
           formData.append('upload_preset', process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
-          let res = await fetch(
-            "https://api.cloudinary.com/v1_1/"+process.env.REACT_APP_CLOUDINARY_NAME+"/auto/upload",
-            {
-              method: "post",
-              body: formData
-            }
-          );
 
-          let json = await res.json();
-          imagesURL.push(json.secure_url);
+          let res = await instance.post("https://api.cloudinary.com/v1_1/"+process.env.REACT_APP_CLOUDINARY_NAME+"/auto/upload", formData);
+
+          let data = await res.data;
+          imagesURL.push(data.secure_url);
           return true;
         })
-    ).then(response=>{
+      );
       setLoading(false);
       submitForm(text);
-    }).catch(error=>{
-        console.log(error);
+    }catch(error){
+        console.error(error);
         setLoading(false);
-    })
-
+    }
   };
 
   const selectFile = (event) => {
@@ -85,8 +82,8 @@ const Input = (props) => {
     setImageFiles([...imagesFiles, event.target.files[0]])
     reader.readAsDataURL(event.target.files[0]);
 
-   reader.onloadend = function (e) {
-      setImage([...images, reader.result ]);
+   reader.onloadend = () => {
+      setImage([...images, {photo: reader.result, text: 'photo_'+images.length}]);
     }
   }
 
@@ -190,9 +187,9 @@ const Input = (props) => {
                     marginBottom: '5px',
                   }}
                 >
-                  {images.map((image, index) => (
+                  {images.map((item, index) => (
                     <Box
-                      key={index}
+                      key={item.text}
                       component="img"
                       sx={{
                         height: 80,
@@ -200,8 +197,8 @@ const Input = (props) => {
                         marginRight: '5px',
                         borderRadius: '5px',
                       }}
-                      alt={image}
-                      src={image}
+                      alt={item.photo}
+                      src={item.photo}
                     />
                   ))}
                 </Box>
